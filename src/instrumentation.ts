@@ -1,5 +1,6 @@
 export async function register() {
   if (process.env.NEXT_RUNTIME !== "nodejs") return;
+  if (process.env.NEXT_PHASE === "phase-production-build") return; // build үед DB рүү хандахгүй
   const { rawExec } = await import("./lib/db");
   const { SCHEMA_SQL } = await import("./lib/sql");
   // Railway-ийн дотоод сүлжээ асахад хэдэн секунд хоцордог — хэд дахин оролдоно.

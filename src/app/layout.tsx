@@ -7,7 +7,9 @@ const nunito = Nunito({ subsets: ["latin", "cyrillic"], variable: "--font-nunito
 const caveat = Caveat({ subsets: ["latin", "cyrillic"], variable: "--font-caveat" });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { org, school } = await getSite();
+  const site = await getSite().catch(() => null);
+  if (!site) return { title: "Сургууль" };
+  const { org, school } = site;
   const title = school ? school.name : `${org.name} — Ерөнхий боловсролын сургуулиуд`;
   return {
     title: { default: title, template: `%s | ${school ? school.shortName : org.name}` },
