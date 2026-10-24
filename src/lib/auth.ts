@@ -2,6 +2,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { SignJWT, jwtVerify } from "jose";
+import { randomBytes } from "node:crypto";
 export { hashPassword, checkPassword } from "./auth-hash";
 import { eq } from "drizzle-orm";
 import { db } from "./db";
@@ -9,10 +10,12 @@ import { admins } from "./schema";
 
 const COOKIE = "zs_admin";
 
+// SESSION_SECRET тохируулаагүй бол процесс бүрт санамсаргүй түлхүүр — ажиллана, гэхдээ дахин асахад админууд дахин нэвтэрнэ.
+const fallback = process.env.NODE_ENV === "production" ? randomBytes(32).toString("hex") : "dev-only-secret-change-me-please-32b";
+if (!process.env.SESSION_SECRET && process.env.NODE_ENV === "production") console.warn("[auth] SESSION_SECRET алга — түр түлхүүр ашиглаж байна");
+
 function secret() {
-  const s = process.env.SESSION_SECRET;
-  if (!s && process.env.NODE_ENV === "production") throw new Error("SESSION_SECRET алга");
-  return new TextEncoder().encode(s ?? "dev-only-secret-change-me-please-32b");
+  return new TextEncoder().encode(process.env.SESSION_SECRET || fallback);
 }
 
 export async function startSession(adminId: number) {

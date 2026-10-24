@@ -19,7 +19,7 @@ node scripts/e2e.mjs # бүтэн урсгалын шалгалт (Edge headless
 |---|---|
 | `DATABASE_URL` | Postgres. Хүснэгтүүд асахад автоматаар үүснэ (src/lib/sql.ts) |
 | `SESSION_SECRET` | Прод дээр заавал |
-| `SEED_DEMO=1` | Хоосон DB-д демо өгөгдөл |
+| `SEED_DEMO=0` | Хоосон DB-д демо өгөгдөл ҮҮСГЭХГҮЙ (анхдагч: үүсгэнэ) |
 | `DEFAULT_ORG` | Танигдаагүй домэйнд харуулах сум (анхдагч `zamyn-uud`) |
 | `ROOT_DOMAIN` | `<сум>.ROOT_DOMAIN` дэд домэйн |
 | `CNAME_TARGET` | Админы «Домэйн» хуудсанд харуулах CNAME хаяг |
