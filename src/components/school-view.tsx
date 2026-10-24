@@ -77,7 +77,7 @@ export function SchoolView({ site, school: s, posts, events, staff, docs }: {
 
         <section id="huanli" className="scroll-mt-36">
           <SectionTitle icon={<CalendarDays className="size-7" />} title="Удахгүй болох үйл явдал" href={onSchoolDomain ? "/hicheeliin-jil" : `/hicheeliin-jil?s=${s.slug}`} linkLabel="Хуанли" />
-          {events.length ? <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{events.slice(0, 4).map((e) => <EventChip key={e.id} e={e} schoolName={e.schoolId ? s.shortName : undefined} />)}</div> : <Empty>Төлөвлөсөн үйл явдал алга.</Empty>}
+          {events.length ? <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">{events.slice(0, 4).map((e) => <EventChip key={e.id} e={e} schoolName={e.schoolId ? s.shortName : undefined} />)}</div> : <Empty>Төлөвлөсөн үйл явдал алга.</Empty>}
         </section>
 
         <section id="bagsh" className="scroll-mt-36">

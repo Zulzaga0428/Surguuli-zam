@@ -41,11 +41,11 @@ export function PostThumb({ post, className = "" }: { post: Post; className?: st
 
 export function PostRow({ post, school }: { post: Post; school?: School | null }) {
   return (
-    <Link href={`/medee/${post.id}`} className="group flex gap-4 rounded-2xl bg-white p-3 ring-1 ring-blue-100 hover:ring-brand-500/40 hover:shadow-lg hover:shadow-blue-900/5 transition">
-      <PostThumb post={post} className="h-20 w-28 shrink-0 rounded-xl" />
-      <div className="min-w-0 py-1">
+    <Link href={`/medee/${post.id}`} className="group flex flex-col gap-2 rounded-2xl bg-white p-2.5 ring-1 ring-blue-100 hover:ring-brand-500/40 hover:shadow-lg hover:shadow-blue-900/5 transition sm:flex-row sm:gap-4 sm:p-3">
+      <PostThumb post={post} className="h-24 w-full shrink-0 rounded-xl sm:h-20 sm:w-28" />
+      <div className="min-w-0 px-1 pb-1 sm:px-0 sm:py-1">
         <div className="text-xs font-semibold text-ink/50">{fmtDate(post.publishedAt)}{school ? ` · ${school.shortName}` : ""}</div>
-        <div className="mt-1 line-clamp-2 font-bold text-ink group-hover:text-brand-600">{post.title}</div>
+        <div className="mt-1 line-clamp-2 text-sm font-bold text-ink group-hover:text-brand-600 sm:text-base">{post.title}</div>
       </div>
     </Link>
   );

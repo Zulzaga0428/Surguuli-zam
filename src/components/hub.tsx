@@ -57,22 +57,22 @@ export function Hub({ site, posts, events }: { site: Site; posts: Post[]; events
         <div className="min-w-0">
           <section id="surguuliud" className="scroll-mt-24">
             <SectionTitle icon={<SchoolIcon className="size-9" />} title="Манай сургуулиуд" sub={`${org.name.replace(/ сум$/, "")}ийн ${schools.length} сургуулийн нэгдсэн цахим хуудас`} href="/surguuli" linkLabel="Бүх сургууль" />
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-5 xl:grid-cols-4">
               {schools.map((s, i) => {
                 const Icon = CARD_ICONS[i % 4];
                 const c = color(s);
                 const photo = schoolPhoto(s);
                 return (
                   <Link key={s.id} href={schoolHref(site, s)} className={`group overflow-hidden rounded-3xl bg-gradient-to-b ${CARD_TINT[i % 4]} to-white ring-1 ${c.ring} hover:shadow-xl hover:shadow-blue-900/10 hover:-translate-y-0.5 transition`}>
-                    <div className="relative h-32 overflow-hidden">
+                    <div className="relative h-24 overflow-hidden sm:h-32">
                       {photo ? <img src={photo} alt={s.name} className="h-full w-full object-cover group-hover:scale-105 transition duration-500" /> : <div className={`h-full ${c.soft}`} />}
                       <span className="absolute left-3 top-3 grid size-7 place-items-center rounded-full bg-white/90 text-xs font-black text-ink">{s.number}</span>
                     </div>
-                    <div className="relative px-5 pb-5">
-                      <span className={`-mt-6 relative grid size-12 place-items-center rounded-full ${c.bg} text-white ring-4 ring-white shadow-md`}><Icon className="size-6" /></span>
-                      <h3 className="mt-3 text-xl font-extrabold text-ink"><span className={c.text}>{s.number}-р</span> сургууль</h3>
-                      <p className="mt-1.5 text-sm text-ink/65 line-clamp-2">{s.tagline || "Сургуулийн танилцуулга, удирдлага, мэдээ мэдээлэл, холбоо барих"}</p>
-                      <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-bold text-brand-600 shadow-sm ring-1 ring-blue-100 group-hover:gap-2.5 transition-all">Дэлгэрэнгүй <ArrowRight className="size-4" /></span>
+                    <div className="relative px-3 pb-4 sm:px-5 sm:pb-5">
+                      <span className={`-mt-5 relative grid size-10 place-items-center rounded-full ${c.bg} text-white ring-4 ring-white shadow-md sm:-mt-6 sm:size-12`}><Icon className="size-5 sm:size-6" /></span>
+                      <h3 className="mt-2 text-base font-extrabold text-ink sm:mt-3 sm:text-xl"><span className={c.text}>{s.number}-р</span> сургууль</h3>
+                      <p className="mt-1 text-xs text-ink/65 line-clamp-2 sm:mt-1.5 sm:text-sm">{s.tagline || "Сургуулийн танилцуулга, удирдлага, мэдээ мэдээлэл, холбоо барих"}</p>
+                      <span className="mt-3 inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-bold sm:mt-4 sm:gap-1.5 sm:px-4 sm:py-2 sm:text-sm text-brand-600 shadow-sm ring-1 ring-blue-100 group-hover:gap-2.5 transition-all">Дэлгэрэнгүй <ArrowRight className="size-4" /></span>
                     </div>
                   </Link>
                 );
@@ -82,7 +82,7 @@ export function Hub({ site, posts, events }: { site: Site; posts: Post[]; events
 
           <section className="mt-12">
             <SectionTitle icon={<Newspaper className="size-7" />} title="Сүүлд нэмэгдсэн мэдээ" href="/medee" linkLabel="Бүх мэдээ" />
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               {posts.slice(0, 4).map((p) => <PostRow key={p.id} post={p} school={p.schoolId ? byId.get(p.schoolId) : null} />)}
             </div>
           </section>
@@ -90,7 +90,7 @@ export function Hub({ site, posts, events }: { site: Site; posts: Post[]; events
           {events.length > 0 && (
             <section className="mt-12">
               <SectionTitle icon={<CalendarDays className="size-7" />} title="Удахгүй болох үйл явдал" href="/hicheeliin-jil" linkLabel="Хуанли" />
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
                 {events.slice(0, 4).map((e) => <EventChip key={e.id} e={e} schoolName={e.schoolId ? byId.get(e.schoolId)?.shortName : undefined} />)}
               </div>
             </section>
@@ -137,12 +137,12 @@ export function Hub({ site, posts, events }: { site: Site; posts: Post[]; events
 export function EventChip({ e, schoolName }: { e: Event; schoolName?: string }) {
   const d = new Date(e.startsOn + "T00:00:00");
   return (
-    <div className="flex gap-4 rounded-2xl bg-white p-4 ring-1 ring-blue-100">
-      <div className="grid h-16 w-14 shrink-0 place-items-center rounded-xl bg-brand-50 text-center">
+    <div className="flex flex-col gap-2 rounded-2xl bg-white p-3 ring-1 ring-blue-100 sm:flex-row sm:gap-4 sm:p-4">
+      <div className="grid h-14 w-12 shrink-0 sm:h-16 sm:w-14 place-items-center rounded-xl bg-brand-50 text-center">
         <div><div className="text-2xl font-black leading-none text-brand-600">{d.getDate()}</div><div className="text-[11px] font-bold text-ink/60">{d.getMonth() + 1}-р сар</div></div>
       </div>
       <div className="min-w-0">
-        <div className="font-bold text-ink line-clamp-2">{e.title}</div>
+        <div className="text-sm font-bold text-ink line-clamp-2 sm:text-base">{e.title}</div>
         <div className="mt-1 text-xs font-semibold text-ink/55">{schoolName ?? "Бүх сургууль"}{e.place ? ` · ${e.place}` : ""}</div>
       </div>
     </div>
