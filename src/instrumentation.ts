@@ -14,6 +14,16 @@ export async function register() {
       await new Promise((r) => setTimeout(r, 3000));
     }
   }
+  // RESET_DEMO=<код> — тухайн кодоор НЭГ Л удаа бүх өгөгдлийг устгаж демог дахин үүсгэнэ (дахин асахад давтагдахгүй).
+  const reset = process.env.RESET_DEMO;
+  if (reset) {
+    const { resetOnce } = await import("./lib/seed");
+    try {
+      if (await resetOnce(reset)) console.log("[seed] өгөгдөл цэвэрлэгдлээ:", reset);
+    } catch (e) {
+      console.error("[seed] цэвэрлэх алдаа:", e);
+    }
+  }
   // Хоосон DB-д демо өгөгдөл (SEED_DEMO=0 бол үгүй).
   if (process.env.SEED_DEMO !== "0") {
     const { seedDemo } = await import("./lib/seed");

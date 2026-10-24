@@ -2,6 +2,8 @@ import { sql } from "drizzle-orm";
 import { db } from "./db";
 import { admins, documents, domains, events, orgs, posts, schools, staff } from "./schema";
 import { hashPassword } from "./auth-hash";
+import { rawExec } from "./db";
+import { SCHEMA_SQL } from "./sql";
 
 // Демо өгөгдөл. Нэр, тоо бүгд ЗОХИОМОЛ — сургууль админаасаа өөрийнхөөрөө солино.
 export async function seedDemo() {
@@ -123,5 +125,16 @@ export async function seedDemo() {
     { orgId: org.id, schoolId: null, username: "sum", name: "Сумын боловсролын мэргэжилтэн", passwordHash: hashPassword(process.env.DEMO_PASSWORD ?? "demo2026") },
     ...ids.map((id, i) => ({ orgId: org.id, schoolId: id, username: `school${i + 1}`, name: `${i + 1}-р сургуулийн админ`, passwordHash: hashPassword(process.env.DEMO_PASSWORD ?? "demo2026") })),
   ]);
+  return true;
+}
+
+export async function resetOnce(token: string) {
+  await rawExec("CREATE TABLE IF NOT EXISTS meta (key text PRIMARY KEY, value text NOT NULL)");
+  const r = await db.execute(sql`SELECT value FROM meta WHERE key = 'reset'`);
+  const rows = (r as unknown as { rows: { value: string }[] }).rows;
+  if (rows[0]?.value === token) return false;
+  await rawExec("DROP TABLE IF EXISTS orgs, schools, domains, posts, events, staff, documents, messages, files, admins CASCADE");
+  await rawExec(SCHEMA_SQL);
+  await db.execute(sql`INSERT INTO meta (key, value) VALUES ('reset', ${token}) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`);
   return true;
 }
